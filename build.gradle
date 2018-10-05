@@ -36,5 +36,5 @@ repositories {
 }
 
 task stage {
-	dependsOn: ['clean', 'installApp']
+    dependsOn installDist
 }
