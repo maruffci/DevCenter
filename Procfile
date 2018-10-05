@@ -1,1 +1,1 @@
-web: ./build/install/app/bin/app
+web: build/install/DevCenter/bin/DevCenter
