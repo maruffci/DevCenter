@@ -12,6 +12,7 @@ public class Model {
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
+    private String DBName = "heroku_be826f701685add";
 
     public Model() throws Exception {
         try {
@@ -26,45 +27,45 @@ public class Model {
     public String create_developer(String email, String plang, String lang) throws SQLException {
         //Insert on developers table and retrieve dev_id;
         preparedStatement = this.connect
-                .prepareStatement("INSERT INTO  devcenter.developers VALUES (default, ?, default, default)");
+                .prepareStatement("INSERT INTO  "+this.DBName+".developers VALUES (default, ?, default, default)");
         preparedStatement.setString(1, email);
         preparedStatement.executeUpdate();
 
         preparedStatement = this.connect
-                .prepareStatement("SELECT last_insert_id() AS last_id FROM devcenter.developers");
+                .prepareStatement("SELECT last_insert_id() AS last_id FROM "+this.DBName+".developers");
         resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String dev_id = resultSet.getString("last_id");
 
         //Insert on programming languages table and retrieving plang_id;
         preparedStatement = this.connect
-                .prepareStatement("INSERT INTO devcenter.programming_languages VALUES (default, ?, ?)");
+                .prepareStatement("INSERT INTO "+this.DBName+".programming_languages VALUES (default, ?, ?)");
         preparedStatement.setString(1, dev_id);
         preparedStatement.setString(2, plang);
         preparedStatement.executeUpdate();
 
         preparedStatement = this.connect
-                .prepareStatement("SELECT last_insert_id() AS last_id FROM devcenter.programming_languages");
+                .prepareStatement("SELECT last_insert_id() AS last_id FROM "+this.DBName+".programming_languages");
         resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String plang_id = resultSet.getString("last_id");
 
         //Insert on languages table and retrieving lang_id;
         preparedStatement = this.connect
-                .prepareStatement("INSERT INTO  devcenter.languages VALUES (default, ?, ?)");
+                .prepareStatement("INSERT INTO  "+this.DBName+".languages VALUES (default, ?, ?)");
         preparedStatement.setString(1, dev_id);
         preparedStatement.setString(2, lang);
         preparedStatement.executeUpdate();
 
         preparedStatement = this.connect
-                .prepareStatement("SELECT last_insert_id() AS last_id FROM devcenter.languages");
+                .prepareStatement("SELECT last_insert_id() AS last_id FROM "+this.DBName+".languages");
         resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String lang_id = resultSet.getString("last_id");
 
         //Update dating developers table
         preparedStatement = this.connect
-                .prepareStatement("UPDATE  devcenter.developers SET plang_id=?, lang_id=? WHERE id="+dev_id);
+                .prepareStatement("UPDATE  "+this.DBName+".developers SET plang_id=?, lang_id=? WHERE id="+dev_id);
         preparedStatement.setString(1, plang_id);
         preparedStatement.setString(2, lang_id);
         preparedStatement.executeUpdate();
