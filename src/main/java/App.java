@@ -16,12 +16,12 @@ public class App extends HttpServlet {
             resp.setHeader("Content-Type", "application/json;charset=utf-8");
             if(api_key.equals(this.API_KEY)) {
                 String action = req.getParameter("action");
-                if (action.equals("create_developer")) {
+                if (action != null && !action.isEmpty() && action.equals("create_developer")) {
                     String email = req.getParameter("email");
                     String plang = req.getParameter("plang");
                     String lang = req.getParameter("lang");
 
-                    if ((email != null && !email.isEmpty() && !email.equals("")) && (plang != null && !plang.isEmpty() && !plang.equals("")) && (lang != null && !lang.isEmpty() && !lang.equals(""))) {
+                    if ((email != null && !email.isEmpty()) && (plang != null && !plang.isEmpty()) && (lang != null && !lang.isEmpty())) {
                         try {
                             Model m = new Model();
                             String response = m.create_developer(email, plang, lang);

@@ -13,12 +13,15 @@ public class Model {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private String DBName = "heroku_be826f701685add";
+    private String DBUser = "b363f5860f72e3";
+    private String DBPassword = "94e5fe61";
 
     public Model() throws Exception {
         try {
             //Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager
-                    .getConnection("mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
+                    .getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true"
+                            + "user="+this.DBUser+"&password="+this.DBPassword);
         } catch (Exception e) {
             throw e;
         }
