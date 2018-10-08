@@ -60,7 +60,7 @@ public class App extends HttpServlet {
                         resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid parameter list!\"}]");
                     }
                 }
-                if (action != null && !action.isEmpty() && action.equals("retrieve_interviews")) {
+                else if (action != null && !action.isEmpty() && action.equals("retrieve_interviews")) {
                     int count = Integer.valueOf(req.getParameter("count"));
                     int id = Integer.valueOf(req.getParameter("id"));
                     String sort = req.getParameter("sort");
