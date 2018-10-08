@@ -26,6 +26,9 @@ dependencies {
 	
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+
+    //JDBC
+    compile files('lib/mysql-connector-java-8.0.12.jar')
 }
 
 // In this section you declare where to find the dependencies of your project
