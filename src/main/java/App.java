@@ -27,7 +27,7 @@ public class App extends HttpServlet {
                             String response = m.create_developer(email, plang, lang);
                             resp.getWriter().print(response);
                         } catch (Exception e) {
-                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database\"}]");
+                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database: "+e.getMessage()+"\"}]");
                         }
                     } else {
                         resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid parameter list!\"}]");
