@@ -20,8 +20,7 @@ public class Model {
         try {
             //Class.forName("com.mysql.jdbc.Driver");
             connect = DriverManager
-                    .getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true"
-                            + "user="+this.DBUser+"&password="+this.DBPassword);
+                    .getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
         } catch (Exception e) {
             throw e;
         }
