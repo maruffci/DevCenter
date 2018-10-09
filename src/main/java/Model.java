@@ -21,8 +21,8 @@ public class Model {
 
     public Model() throws Exception {
         try {
-            //connect = DriverManager.getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName+"?user="+this.DBUser+"&password="+this.DBPassword);
+            connect = DriverManager.getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
+            //connect = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName+"?user="+this.DBUser+"&password="+this.DBPassword);
         } catch (Exception e) {
             throw e;
         }
