@@ -12,55 +12,65 @@ public class App extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        String action = req.getParameter("action");
         String api_key = req.getParameter("api_key");
-        if(api_key != null && !api_key.isEmpty()) {
+        if(action.equals("developer_ui")){
+            View v = new View();
+            resp.getWriter().print(v.developer_view());
+        }
+        else if(action.equals("interview_ui")){
+            int id = Integer.valueOf(req.getParameter("id"));
+            if(id > 0) {
+                View v = new View();
+                resp.getWriter().print(v.interview_view(id));
+            }
+            else{
+                resp.getWriter().print("Invalid Url!");
+            }
+        }
+        else if(api_key != null && !api_key.isEmpty()) {
             resp.setHeader("Content-Type", "application/json;charset=utf-8");
-            if(api_key.equals(this.API_KEY)) {
-                String action = req.getParameter("action");
+            if (api_key.equals(this.API_KEY)) {
                 if (action != null && !action.isEmpty() && action.equals("retrieve_developer")) {
                     int count = Integer.valueOf(req.getParameter("count"));
                     String plang = req.getParameter("plang");
                     String lang = req.getParameter("lang");
-                    if((lang != null && !lang.isEmpty()) && (plang != null && !plang.isEmpty()) && count > 0){
+                    if ((lang != null && !lang.isEmpty()) && (plang != null && !plang.isEmpty()) && count > 0) {
                         try {
                             Model m = new Model();
                             String response = m.search_developer(lang, plang, count);
                             resp.getWriter().print(response);
                         } catch (Exception e) {
-                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:"+e.getMessage()+"\"}]");
+                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
-                    }
-                    else if((lang != null && !lang.isEmpty()) && count > 0){
+                    } else if ((lang != null && !lang.isEmpty()) && count > 0) {
                         try {
                             Model m = new Model();
                             String response = m.search_lang_developer(lang, count);
                             resp.getWriter().print(response);
                         } catch (Exception e) {
-                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:"+e.getMessage()+"\"}]");
+                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
-                    }
-                    else if((plang != null && !plang.isEmpty()) && count > 0){
+                    } else if ((plang != null && !plang.isEmpty()) && count > 0) {
                         try {
                             Model m = new Model();
                             String response = m.search_plang_developer(plang, count);
                             resp.getWriter().print(response);
                         } catch (Exception e) {
-                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:"+e.getMessage()+"\"}]");
+                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
-                    }
-                    else if (count > 0) {
+                    } else if (count > 0) {
                         try {
                             Model m = new Model();
                             String response = m.retrieve_developer(count);
                             resp.getWriter().print(response);
                         } catch (Exception e) {
-                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:"+e.getMessage()+"\"}]");
+                            resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
                     } else {
                         resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid parameter list!\"}]");
                     }
-                }
-                else if (action != null && !action.isEmpty() && action.equals("retrieve_interviews")) {
+                } else if (action != null && !action.isEmpty() && action.equals("retrieve_interviews")) {
                     int count = Integer.valueOf(req.getParameter("count"));
                     int id = Integer.valueOf(req.getParameter("id"));
                     String sort = req.getParameter("sort");
@@ -72,8 +82,7 @@ public class App extends HttpServlet {
                         } catch (Exception e) {
                             resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
-                    }
-                    else if (id > 0 && count > 0) {
+                    } else if (id > 0 && count > 0) {
                         try {
                             Model m = new Model();
                             String response = m.retrieve_interviews(count, id);
@@ -81,16 +90,13 @@ public class App extends HttpServlet {
                         } catch (Exception e) {
                             resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database:" + e.getMessage() + "\"}]");
                         }
-                    }
-                    else{
+                    } else {
                         resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid parameter list!\"}]");
                     }
-                }
-                else {
+                } else {
                     resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid URL!\"}]");
                 }
-            }
-            else{
+            } else {
                 resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"Invalid API KEY\"}]");
             }
         }

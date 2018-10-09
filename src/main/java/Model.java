@@ -21,8 +21,8 @@ public class Model {
 
     public Model() throws Exception {
         try {
-            connect = DriverManager.getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
-            //connect = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName+"?user="+this.DBUser+"&password="+this.DBPassword);
+            //connect = DriverManager.getConnection("jdbc:mysql://b363f5860f72e3:94e5fe61@us-cdbr-iron-east-01.cleardb.net/heroku_be826f701685add?reconnect=true");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/"+DBName+"?user="+this.DBUser+"&password="+this.DBPassword);
         } catch (Exception e) {
             throw e;
         }
@@ -121,8 +121,13 @@ public class Model {
                 .prepareStatement("SELECT * FROM interviews WHERE id = "+dev_id+" LIMIT "+count);
         resultSet = preparedStatement.executeQuery();
         JSON += "\"Interviews\":[";
-        while(resultSet.next()){
-            JSON += "{\"ID\":\""+resultSet.getString("interview_id")+"\",\"Score\":\""+resultSet.getString("score")+"\",\"Comment\":\""+resultSet.getString("comment")+"\"},";
+        if(!resultSet.next()){
+            JSON += "{\"status\":\"failed\",\"error\":\"No Interview found\"},";
+        }
+        else{
+            do{
+                JSON += "{\"ID\":\""+resultSet.getString("interview_id")+"\",\"Score\":\""+resultSet.getString("score")+"\",\"Comment\":\""+resultSet.getString("comment")+"\"},";
+            }while(resultSet.next());
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]}]";
         if(JSON.length() < 40) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
@@ -139,10 +144,17 @@ public class Model {
         preparedStatement = this.connect
                 .prepareStatement("SELECT * FROM interviews WHERE id = "+dev_id+ " ORDER BY score "+sort+" LIMIT "+count);
         resultSet = preparedStatement.executeQuery();
+
         JSON += "\"Interviews\":[";
-        while(resultSet.next()){
-            JSON += "{\"ID\":\""+resultSet.getString("interview_id")+"\",\"Score\":\""+resultSet.getString("score")+"\",\"Comment\":\""+resultSet.getString("comment")+"\"},";
+        if(!resultSet.next()){
+            JSON += "{\"status\":\"failed\",\"error\":\"No Interview found\"},";
         }
+        else{
+            do{
+                JSON += "{\"ID\":\""+resultSet.getString("interview_id")+"\",\"Score\":\""+resultSet.getString("score")+"\",\"Comment\":\""+resultSet.getString("comment")+"\"},";
+            }while(resultSet.next());
+        }
+
         JSON = JSON.substring(0, JSON.length()-1)+"]}]";
         if(JSON.length() < 40) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
