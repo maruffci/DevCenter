@@ -74,6 +74,7 @@ public class Model {
         preparedStatement.setString(2, lang_id);
         preparedStatement.executeUpdate();
 
+        close();
         return "[{\"status\":\"success\",\"developer\":\""+email+"\",\"programming_language\":\""+plang+"\",\"language\":\""+lang+"\"}]";
     }
 
@@ -84,6 +85,7 @@ public class Model {
         preparedStatement.setInt(1, id);
         int deleted = preparedStatement.executeUpdate();
 
+        close();
         if(deleted == 0) return "[{\"status\":\"failed\",\"error\":\"No developer found to deleted.\"}]";
         else return "[{\"status\":\"success\",\"message\":\"Specified developer is deleted.\"}]";
     }
@@ -96,6 +98,7 @@ public class Model {
         preparedStatement.setString(3, comment);
         int added = preparedStatement.executeUpdate();
 
+        close();
         if(added == 0) return "[{\"status\":\"failed\",\"error\":\"System error!\"}]";
         else return "[{\"status\":\"success\",\"message\":\"Interview successfully added.\"}]";
     }
@@ -106,6 +109,7 @@ public class Model {
         preparedStatement.setInt(1, interview_id);
         int deleted = preparedStatement.executeUpdate();
 
+        close();
         if(deleted == 0) return "[{\"status\":\"failed\",\"error\":\"No interview found to deleted.\"}]";
         else return "[{\"status\":\"success\",\"message\":\"Specified interview is deleted.\"}]";
     }
@@ -130,6 +134,7 @@ public class Model {
             }while(resultSet.next());
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]}]";
+        close();
         if(JSON.length() < 40) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
@@ -156,6 +161,7 @@ public class Model {
         }
 
         JSON = JSON.substring(0, JSON.length()-1)+"]}]";
+        close();
         if(JSON.length() < 40) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
@@ -169,6 +175,7 @@ public class Model {
             JSON += "{\"ID\":\""+resultSet.getString("ID")+"\",\"Email\":\""+resultSet.getString("Email")+"\",\"Programming Language\":\""+resultSet.getString("ProgrammingLanguage")+"\",\"Language\":\""+resultSet.getString("LanguageCode")+"\"},";
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]";
+        close();
         if(JSON.length() < 5) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
@@ -182,6 +189,7 @@ public class Model {
             JSON += "{\"ID\":\""+resultSet.getString("ID")+"\",\"Email\":\""+resultSet.getString("Email")+"\",\"Programming Language\":\""+resultSet.getString("ProgrammingLanguage")+"\",\"Language\":\""+resultSet.getString("LanguageCode")+"\"},";
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]";
+        close();
         if(JSON.length() < 5) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
@@ -195,6 +203,7 @@ public class Model {
             JSON += "{\"ID\":\""+resultSet.getString("ID")+"\",\"Email\":\""+resultSet.getString("Email")+"\",\"Programming Language\":\""+resultSet.getString("ProgrammingLanguage")+"\",\"Language\":\""+resultSet.getString("LanguageCode")+"\"},";
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]";
+        close();
         if(JSON.length() < 5) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
@@ -208,11 +217,11 @@ public class Model {
             JSON += "{\"ID\":\""+resultSet.getString("ID")+"\",\"Email\":\""+resultSet.getString("Email")+"\",\"Programming Language\":\""+resultSet.getString("ProgrammingLanguage")+"\",\"Language\":\""+resultSet.getString("LanguageCode")+"\"},";
         }
         JSON = JSON.substring(0, JSON.length()-1)+"]";
+        close();
         if(JSON.length() < 5) return "[{\"status\":\"failed\",\"error\":\"No developer found\"}]";
         else return JSON;
     }
 
-    // You need to close the resultSet
     private void close() {
         try {
             if (resultSet != null) {
