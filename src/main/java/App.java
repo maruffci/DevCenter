@@ -2,8 +2,12 @@ import java.io.IOException;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+
+import com.mysql.cj.xdevapi.JsonParser;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
+import org.eclipse.jetty.util.ajax.JSON;
 
 public class App extends HttpServlet {
 
@@ -141,6 +145,7 @@ public class App extends HttpServlet {
                         try {
                             Model m = new Model();
                             String response = m.add_interview(id, score, comment);
+
                             resp.getWriter().print(response);
                         } catch (Exception e) {
                             resp.getWriter().print("[{\"status\":\"failed\",\"error\":\"System error While connecting Database\"}]");

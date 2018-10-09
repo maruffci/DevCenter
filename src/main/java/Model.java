@@ -75,7 +75,7 @@ public class Model {
         preparedStatement.executeUpdate();
 
         close();
-        return "[{\"status\":\"success\",\"developer\":\""+email+"\",\"programming_language\":\""+plang+"\",\"language\":\""+lang+"\"}]";
+        return "[{\"status\":\"success\",\"ID\":\""+dev_id+"\",\"developer\":\""+email+"\",\"programming_language\":\""+plang+"\",\"language\":\""+lang+"\"}]";
     }
 
 
