@@ -14,11 +14,11 @@ public class App extends HttpServlet {
             throws ServletException, IOException {
         String action = req.getParameter("action");
         String api_key = req.getParameter("api_key");
-        if(action.equals("developer_ui")){
+        if(action != null && !action.isEmpty() && action.equals("developer_ui")){
             View v = new View();
             resp.getWriter().print(v.developer_view());
         }
-        else if(action.equals("interview_ui")){
+        else if(action != null && !action.isEmpty() && action.equals("interview_ui")){
             int id = Integer.valueOf(req.getParameter("id"));
             if(id > 0) {
                 View v = new View();
